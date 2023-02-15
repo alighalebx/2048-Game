@@ -2205,3 +2205,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ae5ed8cacead79a4481e20ae226101f1, type: 2}
   - {fileID: 11400000, guid: 7e85fbac1b702c1499c0048d413f611b, type: 2}
   - {fileID: 11400000, guid: 10a49743a7351d940ae07f2c4853541d, type: 2}
+  pixelDistToDetect: 90
