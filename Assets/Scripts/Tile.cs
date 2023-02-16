@@ -16,12 +16,15 @@ public class Tile : MonoBehaviour
     public bool locked { get; set; }
 
     private Image background;
-    private TextMeshProUGUI text;
+    private ArabicFixerTMPRO text;
+
+    private TextMeshProUGUI txt;
 
     private void Awake()
     {
         background = GetComponent<Image>();
-        text = GetComponentInChildren<TextMeshProUGUI>();
+        text = GetComponentInChildren<ArabicFixerTMPRO>();
+        txt = GetComponentInChildren<TextMeshProUGUI>();
     }
 
     public void SetState(TileState state, int number)
@@ -30,8 +33,8 @@ public class Tile : MonoBehaviour
         this.number = number;
 
         background.color = state.BackgroundColor;
-        text.color = state.TextColor;
-        text.text = number.ToString();
+        txt.color = state.TextColor;
+        text.fixedText = number.ToString();
     }
 
     public void Spwan(TileCell cell)
