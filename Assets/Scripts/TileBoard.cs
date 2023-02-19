@@ -13,19 +13,29 @@ public class TileBoard : MonoBehaviour
 
     private bool waiting;
 
+
+    public GameManager gameManager;
+
     private void Awake()
     {
         grid = GetComponentInChildren<TileGrid>();
         tiles = new List<Tile>(16);
     }
 
-    private void Start()
-    {
-        CreateTile();
-        CreateTile();
+
+    public void ClearBoard(){
+
+        foreach (var cell in grid.cells){
+            cell.tile = null;
+        }
+
+        foreach ( var tile in tiles){
+            Destroy(tile.gameObject);
+        }
+        tiles.Clear();
     }
 
-    private void CreateTile()
+    public void CreateTile()
     {
         Tile tile = Instantiate(tilePrefab, grid.transform);
         tile.SetState(tileStates[0], 2);
@@ -228,5 +238,45 @@ public class TileBoard : MonoBehaviour
         if(tiles.Count != grid.size){
         CreateTile();
         }
+
+        if(CheckForGameOver()){
+            gameManager.GameOver();
+        }
     }
-}
+
+
+        private bool CheckForGameOver(){
+            if (tiles.Count != grid.size){
+                return false;
+            }
+
+            foreach (var tile in tiles){
+                TileCell up = grid.GetAdjacentCell(tile.cell, Vector2Int.up);
+                
+                TileCell down = grid.GetAdjacentCell(tile.cell, Vector2Int.down);
+                
+                TileCell right = grid.GetAdjacentCell(tile.cell, Vector2Int.right);
+                
+                TileCell left = grid.GetAdjacentCell(tile.cell, Vector2Int.left);
+
+
+
+                if(up != null && CanMerge(tile, up.tile)){
+                    return false;
+                }
+
+                if(down != null && CanMerge(tile, down.tile)){
+                    return false;
+                }
+
+                if(right != null && CanMerge(tile, right.tile)){
+                    return false;
+                }
+
+                if(left != null && CanMerge(tile, left.tile)){
+                    return false;
+                }
+            }
+        return true;
+        }
+    }
